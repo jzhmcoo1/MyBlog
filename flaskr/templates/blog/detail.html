@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block somestyles %}
+    <link rel="stylesheet" href="../../static/styles.css">
+{% endblock %}
+{% block title %}
+    {{ post['title'] }}
+{% endblock %}
+{% block header_title %}
+    {{ post['title'] }}
+{% endblock %}
+
+{% block header_subtitle %}
+    by <a href="{{ url_for('auth.info', id=post['author_id']) }}">{{ post['username'] }}</a>
+    on {{ post['created'].strftime('%Y-%m-%d') }}
+{% endblock %}
+
+{% block content %}
+    {{ post_body | safe }}
+{% endblock %}

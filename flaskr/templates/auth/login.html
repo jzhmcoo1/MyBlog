@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+    <h1>{% block title %}登录{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <label for="username" class="user_info">用户名: </label>
+        <input name="username" id="username" required>
+        <br>
+        <label for="password" class="user_info">密码: </label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <input type="submit" value="Log In" class="btn-two green rounded">
+    </form>
+{% endblock %}

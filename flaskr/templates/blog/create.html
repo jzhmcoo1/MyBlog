@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+    新建文章
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <label for="title" class="post_info">文章标题</label>
+        <input name="title" id="title" value="{{ request.form['title'] }}" required>
+        <label for="summary" class="post_info">文章摘要</label>
+        <input name="summary" id="summary" value="{{ request.form['summary'] }}">
+        <label for="body" class="post_info">正文</label>
+        <textarea name="body" id="body" required class="post_info">{{ request.form['body'] }}</textarea>
+        <input type="submit" value="提交" class="btn-two green rounded">
+    </form>
+{% endblock %}
