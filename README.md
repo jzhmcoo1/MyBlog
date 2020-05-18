@@ -20,7 +20,7 @@
 - [x] 登录，注销，注册功能
 - [x] 个人资料页
 - [x] 支持 markdown 写作
-- [ ] 评论，点赞
+- [x] valine评论引入
 - [ ] 目录功能
 - [ ] 上传 md 文件
 - [ ] 更美观的个人资料页
@@ -75,9 +75,13 @@ Or on Windows cmd:
 
 # 参考文档与博客：
 
+Flask开发
 - [欢迎来到 Flask 的世界 — Flask 中文文档（ 1.1.1 ）](https://dormousehole.readthedocs.io/en/latest/index.html)
 - [Template Designer Documentation — Jinja Documentation (2.11.x)](https://jinja.palletsprojects.com/en/2.11.x/templates/)
 - [Blackyukun/quiet: 支持上传 markdown 文件生成 html 的 flask 静态博客](https://github.com/Blackyukun/quiet)
 - [Sitemap — Python-Markdown 3.2.2 documentation](https://python-markdown.github.io/sitemap.html)
 - [基于flask的静态博客 - 后端 - 掘金](https://juejin.im/entry/5a8d8776f265da4e8b2feac7)
+- [用回valine评论系统,valine评论框样式美化 | 小鸡](https://me.idealli.com/post/2d5da13e.html)
+- [快速开始 | Valine 一款快速、简洁且高效的无后端评论系统。](https://valine.js.org/quickstart.html)
+
 
