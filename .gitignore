@@ -3,3 +3,5 @@
 /instance/
 /.idea
 /.gitignore
+/flaskr/flaskr.egg-info
+/flaskr/static/images/upload

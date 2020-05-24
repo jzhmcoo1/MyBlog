@@ -5,8 +5,8 @@
     <title>
         {% block title %}{% endblock %} - MyBlog
     </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}">
     {% block head %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}">
     {% endblock %}
     {% block somestyles %}
     {% endblock %}
@@ -63,6 +63,10 @@
         <p>本站已经运行了: <span id="js-running"></span></p>
     </div>
 </div>
+
+{% block scripts %}
+{% endblock %}
+
 <script>
     var startTime = "2020-05-15";
     var calculationTime = function (startTime) {

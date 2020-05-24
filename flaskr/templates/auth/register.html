@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
+        <label for="avatar" class="user_info">头像:</label>
+        <br>
+        <input type="file" name="avatar" id="avatar" required>
         <label for="username" class="user_info">用户名: </label>
         <input name="username" id="username" required>
         <br>

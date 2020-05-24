@@ -1,11 +1,14 @@
 import functools
+import os
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, send_from_directory
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from config import AVATAR_PATH
+from config import ALLOWED_IMAGE_EXTENSIONS
 from flaskr.db import get_db
+from werkzeug.utils import secure_filename
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -15,6 +18,8 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        avatar_file = request.files['avatar']
+        avatar_path = upload_avatar(avatar_file)
         db = get_db()
         error = None
 
@@ -29,8 +34,8 @@ def register():
 
         if error is None:
             db.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (username, generate_password_hash(password))
+                'INSERT INTO user (username, password, avatar) VALUES (?, ?, ?)',
+                (username, generate_password_hash(password), avatar_path)
             )
             db.commit()
             return redirect(url_for('auth.login'))
@@ -100,7 +105,7 @@ def login_required(view):
 def get_info(id):
     db = get_db()
     user_info = db.execute(
-        'SELECT u.id, username, nickname, address, description '
+        'SELECT u.id, username, nickname, address, description, avatar'
         ' FROM user u'
         ' WHERE u.id = ?',
         (id,)
@@ -122,6 +127,7 @@ def get_recent_ten_posts(id):
 @bp.route('/<int:id>/info', methods=('GET', "POST"))
 def info(id):
     user_info = get_info(id)
+    print(user_info['avatar'])
     posts = get_recent_ten_posts(id)
     return render_template('auth/info.html', info=user_info, posts=posts)
 
@@ -134,14 +140,44 @@ def update(id):
         nick = request.form['nickname']
         addr = request.form['address']
         desc = request.form['description']
-
+        file = request.files['avatar']
+        new_path = upload_avatar(file)
         db = get_db()
         db.execute(
-            'UPDATE user SET nickname = ?, address = ?, description = ?'
+            'UPDATE user SET nickname = ?, address = ?, description = ?, avatar = ?'
             'WHERE id = ?',
-            (nick, addr, desc, id)
+            (nick, addr, desc, new_path, id)
         )
         db.commit()
         # return render_template('auth/info.html', info=info)
         return redirect(url_for('auth.info', id=info['id']))
     return render_template('auth/update.html', info=info)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+
+@bp.route('/')
+def upload_avatar(get_file):
+    # if 'file' not in request.files:
+    #     flash('No file part')
+    #     return redirect(request.url)
+    file = get_file
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        if not os.path.exists(AVATAR_PATH):
+            os.makedirs(AVATAR_PATH)
+        file_path = os.path.join(AVATAR_PATH, filename)
+        # print(file_path)
+        file.save(file_path)
+        return filename
+
+
+# @bp.route('/uploads/<filename>')
+# def uploaded_file(filename):
+#     return send_from_directory(AVATAR_PATH, filename)

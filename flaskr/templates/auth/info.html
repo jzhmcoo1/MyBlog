@@ -15,6 +15,10 @@
 
 {% block content %}
     <p class="user_info">
+        头像:
+    </p>
+    <img src="{{ url_for('static', filename='/images/upload/avatars/'+info['avatar']) }}" alt="头像">
+    <p class="user_info">
         用户名: {{ info['username'] }}
     </p>
     <p class="user_info">

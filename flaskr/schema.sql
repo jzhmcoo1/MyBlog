@@ -7,7 +7,8 @@ CREATE TABLE user (
   password TEXT NOT NULL,
   nickname TEXT,
   address TEXT,
-  description TEXT
+  description TEXT,
+  avatar TEXT
 );
 
 CREATE TABLE post (

@@ -4,15 +4,19 @@
     修改个人信息
 {% endblock %}
 {% block content %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
+        <label for="avatar" class="user_info">头像:</label>
+        <br>
+        <input type="file" name="avatar" id="avatar">
         <label for="nickname" class="user_info">昵称:</label>
         <input name="nickname" id="nickname" value="{{ request.form['nickname'] or info['nickname'] }}">
         <br>
         <label for="address" class="user_info">地址:</label>
-        <input name="address" id="address" value="{{ request.form['address'] or info['address']}}">
+        <input name="address" id="address" value="{{ request.form['address'] or info['address'] }}">
         <br>
         <label for="description" class="user_info">个人简介:</label>
-        <textarea id="description" name="description">{{ request.form['description'] or info['description'] }}</textarea>
+        <textarea id="description"
+                  name="description">{{ request.form['description'] or info['description'] }}</textarea>
         <br>
         <input type="submit" value="保存" class="btn-two green rounded">
     </form>

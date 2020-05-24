@@ -1,5 +1,11 @@
 {% extends 'page.html' %}
 
+{% block head %}
+    {#    <script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>#}
+    <script src="{{ url_for('static',filename='ckeditor5/build/ckeditor.js') }}">
+    </script>
+{% endblock %}
+
 {% block header_title %}
     新建文章
 {% endblock %}
@@ -11,7 +17,70 @@
         <label for="summary" class="post_info">文章摘要</label>
         <input name="summary" id="summary" value="{{ request.form['summary'] }}">
         <label for="body" class="post_info">正文</label>
-        <textarea name="body" id="body" required class="post_info">{{ request.form['body'] }}</textarea>
+        {#        <textarea name="body" id="body" required class="post_info">{{ request.form['body'] }}</textarea>#}
+        <textarea id="body" name="body">
+            {{ request.form['body'] }}
+        </textarea>
         <input type="submit" value="提交" class="btn-two green rounded">
     </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#body'), {
+                toolbar: {
+                    items: [
+                        'undo',
+                        'redo',
+                        '|',
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        {#'imageUpload',#}
+                        'blockQuote',
+                        'insertTable',
+                        'highlight',
+                        'code',
+                        'codeBlock'
+                    ]
+                },
+                language: 'en',
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
+                licenseKey: '',
+
+            })
+            .then(editor => {
+                window.editor = editor;
+
+
+            })
+            .catch(error => {
+                console.error('Oops, something gone wrong!');
+                console.error('Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:');
+                console.warn('Build id: l3o6r34b2cq-x9tytuvr5n0n');
+                console.error(error);
+            });
+    </script>
 {% endblock %}
