@@ -124,7 +124,7 @@ def get_recent_ten_posts(id):
     return ten_posts
 
 
-@bp.route('/<int:id>/info', methods=('GET', "POST"))
+@bp.route('/info/<int:id>/', methods=('GET', "POST"))
 def info(id):
     user_info = get_info(id)
     print(user_info['avatar'])
@@ -134,6 +134,11 @@ def info(id):
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 def update(id):
+    """
+    更新个人信息
+    :param id:
+    :return:
+    """
     info = get_info(id)
 
     if request.method == 'POST':
@@ -141,7 +146,7 @@ def update(id):
         addr = request.form['address']
         desc = request.form['description']
         file = request.files['avatar']
-        new_path = upload_avatar(file)
+        new_path = upload_avatar(file, info['avatar'])
         db = get_db()
         db.execute(
             'UPDATE user SET nickname = ?, address = ?, description = ?, avatar = ?'
@@ -155,12 +160,17 @@ def update(id):
 
 
 def allowed_file(filename):
+    """
+    检查文件的合法性
+    :param filename:
+    :return:
+    """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
 
 
 @bp.route('/')
-def upload_avatar(get_file):
+def upload_avatar(get_file, old_file):
     # if 'file' not in request.files:
     #     flash('No file part')
     #     return redirect(request.url)
@@ -173,10 +183,11 @@ def upload_avatar(get_file):
         if not os.path.exists(AVATAR_PATH):
             os.makedirs(AVATAR_PATH)
         file_path = os.path.join(AVATAR_PATH, filename)
+        if old_file:  # 替换旧头像
+            os.remove(os.path.join(AVATAR_PATH, old_file))
         # print(file_path)
         file.save(file_path)
         return filename
-
 
 # @bp.route('/uploads/<filename>')
 # def uploaded_file(filename):
