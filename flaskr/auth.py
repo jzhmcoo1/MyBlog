@@ -1,12 +1,14 @@
 import functools
 import os
-
+import shutil
+import time
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, send_from_directory
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from config import AVATAR_PATH
 from config import ALLOWED_IMAGE_EXTENSIONS
+from config import DEFAULT_PATH
 from flaskr.db import get_db
 from werkzeug.utils import secure_filename
 
@@ -19,7 +21,10 @@ def register():
         username = request.form['username']
         password = request.form['password']
         avatar_file = request.files['avatar']
-        avatar_path = upload_avatar(avatar_file)
+        if avatar_file:
+            avatar_path = upload_avatar(avatar_file)
+        else:
+            avatar_path = upload_avatar(None)
         db = get_db()
         error = None
 
@@ -124,7 +129,7 @@ def get_recent_ten_posts(id):
     return ten_posts
 
 
-@bp.route('/info/<int:id>/', methods=('GET', "POST"))
+@bp.route('/<int:id>/info', methods=('GET', "POST"))
 def info(id):
     user_info = get_info(id)
     print(user_info['avatar'])
@@ -170,24 +175,29 @@ def allowed_file(filename):
 
 
 @bp.route('/')
-def upload_avatar(get_file, old_file):
+def upload_avatar(get_file, old_file=""):
     # if 'file' not in request.files:
     #     flash('No file part')
     #     return redirect(request.url)
     file = get_file
-    if file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        if not os.path.exists(AVATAR_PATH):
+    if file is not None:
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if not os.path.exists(AVATAR_PATH):  # 创建文件路径
             os.makedirs(AVATAR_PATH)
-        file_path = os.path.join(AVATAR_PATH, filename)
-        if old_file:  # 替换旧头像
-            os.remove(os.path.join(AVATAR_PATH, old_file))
-        # print(file_path)
-        file.save(file_path)
-        return filename
+        if file and allowed_file(file.filename):
+            filename = secure_filename(time.strftime("%Y%m%d%H%M%s") + "." + file.filename.rsplit('.', 1)[1].lower())
+            file_path = os.path.join(AVATAR_PATH, filename)
+            if old_file:  # 替换旧头像
+                os.remove(os.path.join(AVATAR_PATH, old_file))
+            # print(file_path)
+            file.save(file_path)
+            return filename
+    new_name = secure_filename(time.strftime("%Y%m%d%H%M%s") + "." + "jpg")
+    new_path = os.path.join(AVATAR_PATH, new_name)
+    shutil.copy(DEFAULT_PATH, new_path)
+    return new_name
 
 # @bp.route('/uploads/<filename>')
 # def uploaded_file(filename):

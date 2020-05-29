@@ -8,7 +8,6 @@
 """
 import os
 
-
 SECRET_KEY = b'Kg\x93(p\xc8\x84\xdbk\xc9\x8e\x8f\x04\xf3(\xf3'
 
 POST_PATH = './source/_posts/'
@@ -18,3 +17,4 @@ POST_PATH = './source/_posts/'
 ALLOWED_IMAGE_EXTENSIONS = {'jpg', 'png', 'jpeg'}
 
 AVATAR_PATH = os.path.join(os.path.dirname(__file__), 'static/images/upload/avatars')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'static/images/default/default.jpg')
