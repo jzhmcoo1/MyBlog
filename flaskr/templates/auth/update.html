@@ -7,7 +7,7 @@
     <form method="post" enctype="multipart/form-data">
         <label for="avatar" class="user_info">头像:</label>
         <br>
-        <input type="file" name="avatar" id="avatar">
+        <input type="file" name="avatar" id="avatar" value="{{ request.form['avatar'] or info['avatar'] }}">
         <label for="nickname" class="user_info">昵称:</label>
         <input name="nickname" id="nickname" value="{{ request.form['nickname'] or info['nickname'] }}">
         <br>

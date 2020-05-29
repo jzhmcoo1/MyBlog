@@ -151,7 +151,10 @@ def update(id):
         addr = request.form['address']
         desc = request.form['description']
         file = request.files['avatar']
-        new_path = upload_avatar(file, info['avatar'])
+        if file:
+            new_path = upload_avatar(file, info['avatar'])
+        else:
+            new_path = info['avatar']
         db = get_db()
         db.execute(
             'UPDATE user SET nickname = ?, address = ?, description = ?, avatar = ?'
