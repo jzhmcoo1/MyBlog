@@ -62,7 +62,7 @@
                 {% for post in posts %}
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <article class="card shadow">
-                            <img class="rounded card-img-top" src="" alt="post-thumb">
+                            <img class="rounded card-img-top" src="{{ url_for('static', filename='/images/upload/postImages/'+post['postImage']) }}" alt="post-thumb">
                             <div class="card-body">
                                 <h4 class="card-title"><a class="text-dark"
                                                           href="{{ url_for('blog.get_post_in_detail',id=post['id'],title=post['title']) }}">

@@ -120,7 +120,7 @@ def get_info(id):
 
 def get_recent_ten_posts(id):
     db = get_db()
-    query = 'select id, author_id, created, title, summary from ' \
+    query = 'select id, author_id, created, title, summary, postImage from ' \
             'post where author_id = ? ORDER BY created DESC '
     params = (id,)
     ten_posts = db.execute(

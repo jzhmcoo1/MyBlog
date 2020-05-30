@@ -19,9 +19,9 @@
                     <div class="bg-white rounded text-center p-5 shadow-down">
                         <h4 class="mb-80">更新 {{ post['title'] }}</h4>
                         <div class="shadow-down mb-4">
-                            {#                            <img src="{{ url_for('static', filename='/images/upload/avatars/'+info['avatar']) }}"#}
-                            {#                                 alt="author" width="20" style="max-width: 300px;max-height: 300px"#}
-                            {#                                 class="img-fluid w-100 rounded-lg border-thick border-white" id="show">#}
+                            <img src="{{ url_for('static', filename='/images/upload/postImages/'+post['postImage']) }}"
+                                 alt="postImage" width="20" style="max-width: 300px;max-height: 300px"
+                                 class="img-fluid w-100 rounded-lg border-thick border-white" id="show">
                         </div>
                         <form method="post" enctype="multipart/form-data" class="row">
                             {#                            <div class="col-12">#}
@@ -30,19 +30,24 @@
                             {#                                       value="{{ request.form['avatar'] or info['avatar'] }}"#}
                             {#                                       accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">#}
                             {#                            </div>#}
+                            <div class="col-12">
+                                <label for="postImage" class="btn-transparent" style="cursor: pointer">上传一张图片</label>
+                                <input type="file" name="postImage" id="postImage" style="display: none"
+                                       accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">
+                            </div>
                             <div class="col-md-6">
-                                <input type="text" id="title" name="title" placeholder="文章标题"
+                                <input type="text" id="title" name="title" placeholder="文章标题" onfocus="this.select()"
                                        class="form-control px-0 mb-4"
                                        value="{{ request.form['title'] or post['title'] }}" required>
                             </div>
                             <div class="col-12">
-                                <input type="text" id="summary" name="summary" placeholder="文章概要"
+                                <input type="text" id="summary" name="summary" placeholder="文章概要" onfocus="this.select()"
                                        class="form-control px-0 mb-4"
                                        value="{{ request.form['summary'] or post['summary'] }}" required>
                             </div>
                             <div class="col-12">
                                 <textarea name="body" id="body" class="form-control px-0 mb-4"
-                                          placeholder="正文内容" style="min-height: 600px"
+                                          placeholder="正文内容" style="min-height: 600px" onfocus="this.select()"
                                           required>{{ request.form['body'] or post['body'] }}</textarea>
                             </div>
                             <div class="col-md-6">
@@ -62,6 +67,29 @@
             </div>
         </div>
     </section>
+
+
+    <script>
+        function changepic(obj) {
+            //console.log(obj.files[0]);//这里可以获取上传文件的name
+            var newsrc = getObjectURL(obj.files[0]);
+            document.getElementById('show').src = newsrc;
+        }
+
+        //建立一個可存取到該file的url
+        function getObjectURL(file) {
+            var url = null;
+            // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
+    </script>
 {% endblock %}
 
 {#{% block scripts %}#}

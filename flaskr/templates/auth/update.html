@@ -31,16 +31,16 @@
                                        accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" id="nickname" name="nickname" placeholder="昵称"
+                                <input type="text" id="nickname" name="nickname" placeholder="昵称" onfocus="this.select()"
                                        class="form-control px-0 mb-4"
                                        value="{{ request.form['nickname'] or info['nickname'] }}">
                             </div>
                             <div class="col-md-6">
-                                <input type="email" id="address" name="address" placeholder="邮箱"
+                                <input type="email" id="address" name="address" placeholder="邮箱" onfocus="this.select()"
                                        class="form-control px-0 mb-4" value="{{ request.form['address'] or info['address'] }}" >
                             </div>
                             <div class="col-12">
-                                <textarea name="description" id="description" class="form-control px-0 mb-4"
+                                <textarea name="description" id="description" class="form-control px-0 mb-4" onfocus="this.select()"
                                           placeholder="简单的介绍你自己">{{ request.form['description'] or info['description'] }}</textarea>
                             </div>
                             <div class="col-lg-6 col-10 mx-auto">
