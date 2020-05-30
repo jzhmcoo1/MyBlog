@@ -1,4 +1,4 @@
-{% extends 'page.html' %}
+{% extends 'Homepage.html' %}
 
 {% block head %}
     {#    <script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>#}
@@ -6,23 +6,70 @@
 {#    </script>#}
 {% endblock %}
 
-{% block header_title %}
+{% block head_title %}
     新建文章
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-        <label for="title" class="post_info">文章标题</label>
-        <input name="title" id="title" value="{{ request.form['title'] }}" required>
-        <label for="summary" class="post_info">文章摘要</label>
-        <input name="summary" id="summary" value="{{ request.form['summary'] }}">
-        <label for="body" class="post_info">正文</label>
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="bg-white rounded text-center p-5 shadow-down">
+                        <h4 class="mb-80">写文章</h4>
+                        <div class="shadow-down mb-4">
+                            {#                            <img src="{{ url_for('static', filename='/images/upload/avatars/'+info['avatar']) }}"#}
+                            {#                                 alt="author" width="20" style="max-width: 300px;max-height: 300px"#}
+                            {#                                 class="img-fluid w-100 rounded-lg border-thick border-white" id="show">#}
+                        </div>
+                        <form method="post" enctype="multipart/form-data" class="row">
+                            {#                            <div class="col-12">#}
+                            {#                                <label for="avatar" class="btn-transparent" style="cursor: pointer">上传一个头像</label>#}
+                            {#                                <input type="file" name="avatar" id="avatar" style="display: none"#}
+                            {#                                       value="{{ request.form['avatar'] or info['avatar'] }}"#}
+                            {#                                       accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">#}
+                            {#                            </div>#}
+                            <div class="col-md-6">
+                                <input type="text" id="title" name="title" placeholder="文章标题"
+                                       class="form-control px-0 mb-4"
+                                       required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" id="summary" name="summary" placeholder="文章概要"
+                                       class="form-control px-0 mb-4"
+                                       required>
+                            </div>
+                            <div class="col-12">
+                                <textarea name="body" id="body" class="form-control px-0 mb-4"
+                                          placeholder="正文内容" style="min-height: 600px"
+                                          required></textarea>
+                            </div>
+                            <span class="col-md-6" style="display: flex;">
+                                <input type="submit" value="提交" class="btn btn-outline-success w-100">
+                                <input type="reset" value="重写" class="btn btn-outline-warning w-100">
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+{#    <form method="post">#}
+{#        <label for="title" class="post_info">文章标题</label>#}
+{#        <input name="title" id="title" value="{{ request.form['title'] }}" required>#}
+{#        <label for="summary" class="post_info">文章摘要</label>#}
+{#        <input name="summary" id="summary" value="{{ request.form['summary'] }}">#}
+{#        <label for="body" class="post_info">正文</label>#}
         {#        <textarea name="body" id="body" required class="post_info">{{ request.form['body'] }}</textarea>#}
-        <textarea id="body" name="body">
-            {{ request.form['body'] }}
-        </textarea>
-        <input type="submit" value="提交" class="btn-two green rounded">
-    </form>
+{#        <textarea id="body" name="body">#}
+{#            {{ request.form['body'] }}#}
+{#        </textarea>#}
+{#        <input type="submit" value="提交" class="btn-two green rounded">#}
+{#    </form>#}
 {% endblock %}
 
 {% block scripts %}
