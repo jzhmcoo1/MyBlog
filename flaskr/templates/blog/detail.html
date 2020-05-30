@@ -8,7 +8,7 @@
 {% endblock %}
 {% block head_title %}
     <div class="col-12 text-center">
-        <h1 class="text-white font-tertiary">文章详情</h1>
+        <h1 class="text-white font-tertiary">{{ post['title'] }}</h1>
     </div>
 {% endblock %}
 {% block content %}
@@ -17,7 +17,13 @@
             <div class="container">
                 <div class="col-12">
                     <div class="btn-group btn-group-toggle justify-content-center d-flex">
-                        <a class="btn btn-xs btn-light" href="{{ url_for('blog.update', id=post['id']) }}">编辑文章</a>
+                        <p class="font-secondary">Published on {{ post['created'].strftime('%Y-%m-%d') }} by <span
+                                class="text-primary"><a
+                                href="{{ url_for('auth.info', id=post['author_id']) }}">{{ post['username'] }}</a></span>
+                        </p>
+                    </div>
+                    <div class="btn-group btn-group-toggle justify-content-center d-flex">
+                    <a class="btn btn-xs btn-light" href="{{ url_for('blog.update', id=post['id']) }}">编辑文章</a>
                     </div>
                 </div>
             </div>
@@ -28,13 +34,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="font-tertiary mb-5">{{ post['title'] }}</h3>
-                    <p class="font-secondary">Published on {{ post['created'].strftime('%Y-%m-%d') }} by <span
-                            class="text-primary"><a
-                            href="{{ url_for('auth.info', id=post['author_id']) }}">{{ post['username'] }}</a></span>
-                    </p>
+                    {#                    <h3 class="font-tertiary mb-5">{{ post['title'] }}</h3>#}
                     <div class="content">
-                        <img src="" alt="post-thumb" class="img-fluid rounded float-left mr-5 mb-4">
+                        {#                        <img src="{{ url_for('static', filename='images/upload/postImages/'+post['postImage']) }}" alt="post-thumb" class="img-fluid rounded float-left mr-5 mb-4">#}
                         {{ post_body | safe }}
                     </div>
                 </div>

@@ -18,5 +18,6 @@ CREATE TABLE post (
   title TEXT NOT NULL,
   summary TEXT NOT NULL,
   body TEXT NOT NULL,
+  postImage TEXT,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );

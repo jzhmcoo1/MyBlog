@@ -2,12 +2,14 @@
 
 {% block head %}
     {#    <script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>#}
-{#    <script src="{{ url_for('static',filename='ckeditor5/build/ckeditor.js') }}">#}
-{#    </script>#}
+    {#    <script src="{{ url_for('static',filename='ckeditor5/build/ckeditor.js') }}">#}
+    {#    </script>#}
 {% endblock %}
 
 {% block head_title %}
-    新建文章
+    <div class="col-12 text-center">
+        <h1 class="text-white font-tertiary">新建文章</h1>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -18,17 +20,16 @@
                     <div class="bg-white rounded text-center p-5 shadow-down">
                         <h4 class="mb-80">写文章</h4>
                         <div class="shadow-down mb-4">
-                            {#                            <img src="{{ url_for('static', filename='/images/upload/avatars/'+info['avatar']) }}"#}
-                            {#                                 alt="author" width="20" style="max-width: 300px;max-height: 300px"#}
-                            {#                                 class="img-fluid w-100 rounded-lg border-thick border-white" id="show">#}
+                            <img src="{{ url_for('static', filename='/images/default/post.jpg') }}"
+                                 alt="author" width="20" style="max-width: 300px;max-height: 300px"
+                                 class="img-fluid w-100 rounded-lg border-thick border-white" id="show">
                         </div>
                         <form method="post" enctype="multipart/form-data" class="row">
-                            {#                            <div class="col-12">#}
-                            {#                                <label for="avatar" class="btn-transparent" style="cursor: pointer">上传一个头像</label>#}
-                            {#                                <input type="file" name="avatar" id="avatar" style="display: none"#}
-                            {#                                       value="{{ request.form['avatar'] or info['avatar'] }}"#}
-                            {#                                       accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">#}
-                            {#                            </div>#}
+                            <div class="col-12">
+                                <label for="postImage" class="btn-transparent" style="cursor: pointer">上传一张图片</label>
+                                <input type="file" name="postImage" id="postImage" style="display: none"
+                                       accept="image/png, image/jpeg, image/jpg" onchange="changepic(this)">
+                            </div>
                             <div class="col-md-6">
                                 <input type="text" id="title" name="title" placeholder="文章标题"
                                        class="form-control px-0 mb-4"
@@ -54,80 +55,85 @@
             </div>
         </div>
     </section>
+    <script>
+        function changepic(obj) {
+            //console.log(obj.files[0]);//这里可以获取上传文件的name
+            var newsrc = getObjectURL(obj.files[0]);
+            document.getElementById('show').src = newsrc;
+        }
 
-
-
-
-{#    <form method="post">#}
-{#        <label for="title" class="post_info">文章标题</label>#}
-{#        <input name="title" id="title" value="{{ request.form['title'] }}" required>#}
-{#        <label for="summary" class="post_info">文章摘要</label>#}
-{#        <input name="summary" id="summary" value="{{ request.form['summary'] }}">#}
-{#        <label for="body" class="post_info">正文</label>#}
-        {#        <textarea name="body" id="body" required class="post_info">{{ request.form['body'] }}</textarea>#}
-{#        <textarea id="body" name="body">#}
-{#            {{ request.form['body'] }}#}
-{#        </textarea>#}
-{#        <input type="submit" value="提交" class="btn-two green rounded">#}
-{#    </form>#}
+        //建立一個可存取到該file的url
+        function getObjectURL(file) {
+            var url = null;
+            // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
+    </script>
 {% endblock %}
 
 {% block scripts %}
-{#    <script>#}
-{#        ClassicEditor#}
-{#            .create(document.querySelector('#body'), {#}
-{#                toolbar: {#}
-{#                    items: [#}
-{#                        'undo',#}
-{#                        'redo',#}
-{#                        '|',#}
-{#                        'heading',#}
-{#                        '|',#}
-{#                        'bold',#}
-{#                        'italic',#}
-{#                        'link',#}
-{#                        'bulletedList',#}
-{#                        'numberedList',#}
-{#                        '|',#}
-{#                        'indent',#}
-{#                        'outdent',#}
-{#                        '|',#}
-                        {#'imageUpload',#}
-{#                        'blockQuote',#}
-{#                        'insertTable',#}
-{#                        'highlight',#}
-{#                        'code',#}
-{#                        'codeBlock'#}
-{#                    ]#}
-{#                },#}
-{#                language: 'en',#}
-{#                image: {#}
-{#                    toolbar: [#}
-{#                        'imageTextAlternative',#}
-{#                        'imageStyle:full',#}
-{#                        'imageStyle:side'#}
-{#                    ]#}
-{#                },#}
-{#                table: {#}
-{#                    contentToolbar: [#}
-{#                        'tableColumn',#}
-{#                        'tableRow',#}
-{#                        'mergeTableCells'#}
-{#                    ]#}
-{#                },#}
-{#                licenseKey: '',#}
-{##}
-{#            })#}
-{#            .then(editor => {#}
-{#                window.editor = editor;#}
-{##}
-{##}
-{#            })#}
-{#            .catch(error => {#}
-{#                console.error('Oops, something gone wrong!');#}
-{#                console.error('Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:');#}
-{#                console.warn('Build id: l3o6r34b2cq-x9tytuvr5n0n');#}
-{#                console.error(error);#}
-{#            });#}
-{#    </script>#}
+    {#    <script>#}
+    {#        ClassicEditor#}
+    {#            .create(document.querySelector('#body'), {#}
+    {#                toolbar: {#}
+    {#                    items: [#}
+    {#                        'undo',#}
+    {#                        'redo',#}
+    {#                        '|',#}
+    {#                        'heading',#}
+    {#                        '|',#}
+    {#                        'bold',#}
+    {#                        'italic',#}
+    {#                        'link',#}
+    {#                        'bulletedList',#}
+    {#                        'numberedList',#}
+    {#                        '|',#}
+    {#                        'indent',#}
+    {#                        'outdent',#}
+    {#                        '|',#}
+    {#'imageUpload',#}
+    {#                        'blockQuote',#}
+    {#                        'insertTable',#}
+    {#                        'highlight',#}
+    {#                        'code',#}
+    {#                        'codeBlock'#}
+    {#                    ]#}
+    {#                },#}
+    {#                language: 'en',#}
+    {#                image: {#}
+    {#                    toolbar: [#}
+    {#                        'imageTextAlternative',#}
+    {#                        'imageStyle:full',#}
+    {#                        'imageStyle:side'#}
+    {#                    ]#}
+    {#                },#}
+    {#                table: {#}
+    {#                    contentToolbar: [#}
+    {#                        'tableColumn',#}
+    {#                        'tableRow',#}
+    {#                        'mergeTableCells'#}
+    {#                    ]#}
+    {#                },#}
+    {#                licenseKey: '',#}
+    {##}
+    {#            })#}
+    {#            .then(editor => {#}
+    {#                window.editor = editor;#}
+    {##}
+    {##}
+    {#            })#}
+    {#            .catch(error => {#}
+    {#                console.error('Oops, something gone wrong!');#}
+    {#                console.error('Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:');#}
+    {#                console.warn('Build id: l3o6r34b2cq-x9tytuvr5n0n');#}
+    {#                console.error(error);#}
+    {#            });#}
+    {#    </script>#}
 {% endblock %}

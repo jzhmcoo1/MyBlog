@@ -177,11 +177,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
 
 
-@bp.route('/')
 def upload_avatar(get_file, old_file=""):
-    # if 'file' not in request.files:
-    #     flash('No file part')
-    #     return redirect(request.url)
     file = get_file
     if file is not None:
         if file.filename == '':
@@ -202,6 +198,3 @@ def upload_avatar(get_file, old_file=""):
     shutil.copy(DEFAULT_PATH, new_path)
     return new_name
 
-# @bp.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(AVATAR_PATH, filename)

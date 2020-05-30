@@ -5,12 +5,6 @@
         <h1 class="text-white font-tertiary">所有文章</h1>
     </div>
 {% endblock %}
-{#{% block header_subtitle %}#}
-{#    {% if g.user %}#}
-{#        <a class="action" href="{{ url_for('blog.create') }}">写文章</a>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
-
 {% block content %}
     <section class="section">
         <div class="container">
@@ -18,7 +12,9 @@
                 {% for post in posts %}
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <article class="card shadow">
-                            <img class="rounded card-img-top" src="" alt="post-thumb">
+                            <img class="rounded card-img-top" style="max-height: 100%;max-width: 100%"
+                                 src="{{ url_for('static', filename='/images/upload/postImages/'+post['postImage']) }}"
+                                 alt="post-thumb">
                             <div class="card-body">
                                 <h4 class="card-title"><a class="text-dark"
                                                           href="{{ url_for('blog.get_post_in_detail',id=post['id'],title=post['title']) }}">
