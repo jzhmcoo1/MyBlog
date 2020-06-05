@@ -1,23 +1,16 @@
 # 简介
 
-基于 flask 的博客 demo，是本人本学期的大作业😂
+基于 flask 的博客 demo
 
 平时在使用 hexo 的静态博客，受次启发想开发一个博客
 
-由于 web 基础还不好，css 非常生疏，布局问题非常大，且是从零开始开发的，功能目前还很少，之后会再更新。
-
-开发步骤基本就是：
-
-- 看官方文档，把里面的例子实现
-- 再照着已实现的功能加需求
-- 找博客和其他 flask 项目进行参考，添加功能
-
+# 预览
 ![](https://gitee.com/jzhmcoo1/jzhmcoo1picrepo/raw/master/img/blogoverview.jpg)
 
 # TODO：
 
-
 - [x] 登录，注销，注册功能
+- [x] 支持图片上传
 - [x] 个人资料页
 - [x] 支持 markdown 写作
 - [x] valine评论引入
